@@ -39,12 +39,29 @@ The **Boosted Trees model** performed best with an RMSE of 1,874.88 on the test 
 - Premium/Business class tickets significantly impact pricing
 - Jet Airways and IndiGo are among the most expensive airlines
 
-## Files
+## Project Structure
 
-- `PredictingIndianAirfares.Rmd`: Main analysis notebook
-- `PredictingIndianAirfares.pdf`: Compiled report
-- `IndianAirfareData.xlsx`: Original dataset
-- `PredictingIndianAirfareCodebook.pdf`: Data documentation
+```
+indian-airfare-ml-prediction/
+├── README.md                           # Project documentation
+├── PredictingIndianAirfares.Rmd        # Main analysis notebook
+├── PredictingIndianAirfares.pdf        # Compiled report
+├── data/                               # Data files
+│   ├── IndianAirfareData.xlsx          # Original dataset
+│   └── PredictingIndianAirfareCodebook.pdf  # Data documentation
+├── models/                             # Trained models
+│   ├── bt_final_fit_train.rda          # Best boosted trees model
+│   ├── bt_tune.rda                     # Boosted trees tuning results
+│   ├── knn_tune.rda                    # KNN tuning results
+│   ├── rf_tune.rda                     # Random forest tuning results
+│   └── ridge_tune.rda                  # Ridge regression tuning results
+├── results/                            # Model outputs
+│   └── airplane_tibble.rda             # Test set predictions
+└── images/                             # Project images
+    ├── Airplane1.jpg
+    ├── Airplane2.jpg
+    └── airline_jet_flying_out_of_laptop.jpg
+```
 
 ## Technologies Used
 

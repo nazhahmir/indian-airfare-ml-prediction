@@ -6,12 +6,12 @@ author: "Nazhah Mir"
 # Introduction
 Imagine wanting to book a flight and knowing how much the ticket will cost without even checking the website. The purpose of this project is to create a successful machine learning model that can accurately predict the price of a plane ticket.
 
-![](Airplane1.jpg){width=70%}
+![](images/Airplane1.jpg){width=70%}
 
 ## Why?
 The aviation industry, and India's in particular, has been booming in recent years. However, with every growing industry comes the issue of fluctuating prices. Why is it that when you look for a flight today, the price is different than it was yesterday? What factors go into determining the price of an airplane ticket? Using machine learning, we can figure out what exactly is the most influential in dictating price. With more accurate price predictions, we will know exactly how much we should be paying for a flight. 
 
-![](airline_jet_flying_out_of_laptop.jpg)
+![](images/airline_jet_flying_out_of_laptop.jpg)
 
 
 ```{r setup, include=FALSE}
@@ -49,7 +49,7 @@ tidymodels_prefer()
 
 # Reading in the Data
 ```{r}
-airplane_data <- read_excel('IndianAirfareData.xlsx')
+airplane_data <- read_excel('data/IndianAirfareData.xlsx')
 airplane <- as_tibble(airplane_data)
 ```
 The data was taken from Kaggle Set ["Flight Fare Prediction MH"](https://www.kaggle.com/datasets/nikhilmittal/flight-fare-prediction-mh) and it was posted by user Nikhil Mittal, who got it from the Indian Data Science website MachineHack.
@@ -482,17 +482,17 @@ bt_tune <- tune_grid(
 
 ## 4. Saving and Loading the Models 
 ```{r, eval=FALSE}
-save(ridge_tune, file = "ridge_tune.rda")
-save(knn_tune, file = "knn_tune.rda")
-save(rf_tune, file = "rf_tune.rda")
-save(bt_tune, file = "bt_tune.rda")
+save(ridge_tune, file = "models/ridge_tune.rda")
+save(knn_tune, file = "models/knn_tune.rda")
+save(rf_tune, file = "models/rf_tune.rda")
+save(bt_tune, file = "models/bt_tune.rda")
 ```
 
 ```{r}
-load("ridge_tune.rda")
-load("knn_tune.rda")
-load("rf_tune.rda")
-load("bt_tune.rda")
+load("models/ridge_tune.rda")
+load("models/knn_tune.rda")
+load("models/rf_tune.rda")
+load("models/bt_tune.rda")
 ```
 
 ## 5. Collecting the Metrics of Each Model
@@ -539,18 +539,18 @@ best_bt_train <- select_best(bt_tune, metric = 'rmse')
 bt_final_wf_train <- finalize_workflow(bt_wf, best_bt_train)
 bt_final_fit_train <- fit(bt_final_wf_train, data = airplane_train)
 
-save(bt_final_fit_train, file = "bt_final_fit_train.rda")
+save(bt_final_fit_train, file = "models/bt_final_fit_train.rda")
 ```
 
 ```{r}
-load("bt_final_fit_train.rda")
+load("models/bt_final_fit_train.rda")
 airplane_tibble <- predict(bt_final_fit_train, new_data = airplane_test %>% select(-Price))
 airplane_tibble <- bind_cols(airplane_tibble, airplane_test %>% select(Price))
-save(airplane_tibble, file = "airplane_tibble.rda")
+save(airplane_tibble, file = "results/airplane_tibble.rda")
 ```
 
 ```{r}
-load("airplane_tibble.rda")
+load("results/airplane_tibble.rda")
 airplane_metric <- metric_set(rmse)
 
 # Collecting the rmse of the model on the testing data
@@ -587,7 +587,7 @@ bt_final_fit_train %>%
 From this graph, we can see that `duration_hours`, or the number of hours that flight is, has the most correlation with the price of the flight, which is not surprising considering the results of the correlation matrix above. Additionally, we can see from this graph that Jet Airways is the most expensive airline, followed by IndiGo. This is supported by the observation that the airline (whether or not it is Jet Airways or IndiGo) are the 5th and 7th most important variables overall. 
 
 # Conclusion
-![](Airplane2.jpg){width=70%}
+![](images/Airplane2.jpg){width=70%}
 
 The model that performed the best to predict the price of an airplane ticket was the Boosted Tree Model. This does not surprise me, as the dataset I chose is very large and complex with both numerical and categorical variables. The Boosted Tree model is the perfect fit for this type of dataset as it incorporates techniques such as tuning regularization parameters, utilizing gradient boosting and tree-based splitting, and incorporating class weights in order to improve the predictive performance of the model. This model was the best at capturing the complex relationship between the variables the best, as shown by its predictive accuracy. 
 
