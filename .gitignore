@@ -3,7 +3,6 @@
 .RData
 .Ruserdata
 *.RData
-*.rda
 *.rds
 
 # R Markdown cache
